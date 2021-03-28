@@ -5,11 +5,14 @@ FROM ubuntu:latest
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install cron
+RUN apt-get clean 
 RUN apt-get update
 RUN apt-get -y upgrade
+RUN apt-get -y install tzdata
 RUN apt-get -y install zip unzip
 RUN apt-get -y install awscli
 RUN apt-get -y install gettext-base
+RUN apt-get -y install curl
 
 # install mongodb dump
 RUN apt-get -y install mongo-tools
@@ -20,6 +23,7 @@ RUN chmod +x /scripts/*.sh
 
 # create folder for backups
 RUN mkdir /backups
+RUN mkdir /restore
 
 # execute entry point
 ENTRYPOINT ["/scripts/entrypoint.sh"]
