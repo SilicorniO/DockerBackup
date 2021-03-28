@@ -43,6 +43,15 @@ export class Configuration {
       if (process.env.SECRET) {
         confEnvironment.permission.secret = process.env.SECRET
       }
+      if (process.env.MAX_TIME) {
+        confEnvironment.permission.maxTime = process.env.MAX_TIME
+      }
+      if (process.env.MAX_SIZE) {
+        confEnvironment.permission.maxSize = process.env.MAX_SIZE
+      }
+      if (process.env.NUM_MIN) {
+        confEnvironment.permission.numMin = process.env.NUM_MIN
+      }
 
       // merge objects
       Configuration.configuration = confEnvironment
