@@ -1,2 +1,6 @@
 #mongo_sender
 mongo_sender/backups
+
+#test
+test/mongo_backups
+test/receiver_backups

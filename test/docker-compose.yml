@@ -3,6 +3,8 @@ version: "3.5"
 services:
     receiver:
         image: silicornio/backup-receiver:0.1.0
+        ports:
+            - 4000:4000
         environment:
             SECRET: silicornio
             MAX_TIME: 10
@@ -24,7 +26,7 @@ services:
         restart: unless-stopped
     
     mongo_sender:
-        image: silicornio/backup-mongo-sender:0.1.0
+        image: silicornio/backup-sender-mongo:0.1.0
         links:
             - mongo
         depends_on:
@@ -36,6 +38,7 @@ services:
             DATABASE_PORT: 27017
             DATABASE_USER: mongo_user
             DATABASE_PASSWORD: mongo_pass
+            BACKUP_RECEIVER: http://receiver:4000
             BACKUP_SLEEP: 3600
             BACKUP_DAYS: 10
             BACKUP_SECRET: silicornio
