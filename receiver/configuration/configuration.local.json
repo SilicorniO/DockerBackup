@@ -1,0 +1,15 @@
+{
+	"debug": true,
+
+	"listenPort": 4000,
+	"permission": {
+		"secret": "silicornio",
+		"maxTime": 10,
+		"maxSize": 100,
+		"numMin": 2
+	},
+
+	"backupsFolder": "/Users/javiersanchezruiz/workspace/silicornio/DockerBackup/receiver/dist",
+
+	"domainsWhiteList": []
+}

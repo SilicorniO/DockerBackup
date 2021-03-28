@@ -1,0 +1,7 @@
+node_modules/
+dist/
+coverage/
+postman/
+mongo/
+mocks/
+webpack.*.js

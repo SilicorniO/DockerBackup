@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+      "outDir": "./built",
+      "baseUrl": ".",
+      "paths": {
+          "*": ["src/*"]
+      },
+      "allowJs": true,
+      "target": "es6",
+      "lib": [ "es2016" ],
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "strict": false,
+      "strictNullChecks": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true
+  },
+  "include": [
+      "src",
+      "tests"
+  ],
+  "exclude": [
+      "node_modules"
+  ]
+}

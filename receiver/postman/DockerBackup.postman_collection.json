@@ -1,0 +1,90 @@
+{
+	"info": {
+		"_postman_id": "a9251519-b0a8-43a8-a7b7-ef9c1ff54cbe",
+		"name": "DockerBackup",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "data",
+			"item": [
+				{
+					"name": "Add files",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "silicornio",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file1",
+									"type": "file",
+									"src": "/Users/javiersanchezruiz/Downloads/696909.jpg"
+								},
+								{
+									"key": "file2",
+									"type": "file",
+									"src": "/Users/javiersanchezruiz/Downloads/409092358_g.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{endpoint}}/data",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"data"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add files no permission",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "silicornio_no"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file1",
+									"type": "file",
+									"src": "/Users/javiersanchezruiz/Downloads/696909.jpg"
+								},
+								{
+									"key": "file2",
+									"type": "file",
+									"src": "/Users/javiersanchezruiz/Downloads/409092358_g.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{endpoint}}/data",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"data"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

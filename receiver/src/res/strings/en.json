@@ -1,0 +1,13 @@
+{
+	"": "",
+	"-- GENERAL --": "",
+	"E-00-001": "Error",
+	"E-00-002": "Out limits",
+	"-- MAIL --": "",
+	"E-01-001": "Mail not found",
+	"E-01-002": "Mail body no valid",
+	"E-01-003": "Subject not valid",
+	"E-01-004": "Address not valid",
+	"E-01-005": "",
+	"E-01-006": ""
+}
