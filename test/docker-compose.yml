@@ -1,0 +1,46 @@
+version: "3.5"
+
+services:
+    receiver:
+        image: silicornio/backup-receiver:0.1.0
+        environment:
+            SECRET: silicornio
+            MAX_TIME: 10
+            MAX_SIZE: 100
+            NUM_MIN: 2
+        volumes:
+            - ./receiver_backups:/usr/src/app/backups
+
+    mongo:
+        image: mongo
+        links:
+            - receiver
+        depends_on: 
+            - receiver
+        environment:
+            MONGO_INITDB_DATABASE: $DATABASE_NAME
+            MONGO_INITDB_ROOT_USERNAME: mongo_user
+            MONGO_INITDB_ROOT_PASSWORD: mongo_pass
+        restart: unless-stopped
+    
+    mongo_sender:
+        image: silicornio/backup-mongo-sender:0.1.0
+        links:
+            - mongo
+        depends_on:
+            - mongo
+        environment:
+            ENVIRONMENT: test
+            DATABASE_NAME: silicornio
+            DATABASE_HOST: mongo
+            DATABASE_PORT: 27017
+            DATABASE_USER: mongo_user
+            DATABASE_PASSWORD: mongo_pass
+            BACKUP_SLEEP: 3600
+            BACKUP_DAYS: 10
+            BACKUP_SECRET: silicornio
+        volumes:
+            - ./mongo_backups:/backups
+            - ./mongo_restore:/restore
+        restart: unless-stopped
+    
