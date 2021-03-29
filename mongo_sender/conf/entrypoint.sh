@@ -17,7 +17,7 @@ while [ true ]; do
 
     # generate the suffix for files
     hour=$(date +"%H")
-    now=$(date +"%Y%m%d%H%M")
+    now=$(date +"%Y%m%d%H%M%S")
     echo "Starting backup: ${now}"
 
     echo "Executing database backup"
