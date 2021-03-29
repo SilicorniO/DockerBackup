@@ -7,9 +7,9 @@ import { FileUtils } from "utils/file/FileUtils"
 import DataService from "../DataService"
 import DataFile from "../model/DataFile"
 import FileDataManager from "./FileDataManager"
-import FileInfo from "./model/FileInfo"
 
 const MAX_TIME_UNIT = 1000 // seconds
+const MAX_SIZE_UNIT = 1024 * 1024 // megabytes
 
 @injectable()
 export default class FsDataService implements DataService {
@@ -48,21 +48,50 @@ export default class FsDataService implements DataService {
     const backupFolder = Configuration.get().backupsFolder
     const folderInfo = await this.fileDataManager.getFolderInfo(backupFolder)
 
-    // check there are more files than minimum
-    if (folderInfo.files.length > permission.numMin) {
-      // remove all files out of date
-      const filesNotDeleted: FileInfo[] = []
-      const limitDate = new Date(
-        Date.now() - permission.maxTime * MAX_TIME_UNIT,
-      )
-      for (const file of folderInfo.files) {
-        if (DateUtils.compareDates(limitDate, file.dateUpdate) > 0) {
-          // remove file
-          FileUtils.deleteFile(file.path)
-        } else {
-          filesNotDeleted.push(file)
-        }
+    // get all files and sort by date
+    const files = folderInfo.files.sort(
+      (f0, f1) => f0.dateUpdate.getTime() - f1.dateUpdate.getTime(),
+    )
+
+    // calculate limit date
+    const limitDate = new Date(Date.now() - permission.maxTime * MAX_TIME_UNIT)
+
+    // calculate the index of last file accepted by date
+    let indexDate = 0
+    for (let i = 0; i < files.length; i += 1) {
+      if (DateUtils.compareDates(limitDate, files[i].dateUpdate) < 0) {
+        indexDate = i
+        break
       }
+    }
+
+    // calculate the index of the last file accepted by size
+    let indexSize = 0
+    let sumSize = 0
+    for (let i = files.length - 1; i >= 0; i -= 1) {
+      // update index and get file
+      const file = files[i]
+
+      // sum size
+      sumSize += file.size
+
+      // if sum size if bigger we add the file
+      if (sumSize > permission.maxSize * MAX_SIZE_UNIT) {
+        indexSize = Math.min(i + 1, files.length - 1)
+        break
+      }
+    }
+
+    // delete all files until index
+    for (
+      let i = 0;
+      i < Math.max(indexDate, indexSize) &&
+      i < files.length - permission.numMin;
+      i += 1
+    ) {
+      // remove file
+      Log.i(`Deleting file: '${files[i].path}'`)
+      FileUtils.deleteFile(files[i].path)
     }
 
     return
