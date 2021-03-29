@@ -22,6 +22,7 @@ export default class AddData implements BaseController {
 
   public async execute(
     req: ControllerRequest,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     userLogged: LoggedUser,
   ): Promise<void> {
     // convert from multer files to data files
