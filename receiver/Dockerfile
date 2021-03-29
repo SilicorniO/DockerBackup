@@ -5,7 +5,7 @@ RUN mkdir /usr/src/app
 RUN mkdir /usr/src/app/backups
 WORKDIR /usr/src/app
 
-COPY ./ .
+COPY ./dist .
 
 # add `/usr/src/app/node_modules/.bin` to $PATH
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
