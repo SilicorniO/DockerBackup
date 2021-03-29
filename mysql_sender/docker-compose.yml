@@ -1,0 +1,51 @@
+version: "3.5"
+
+services:
+    mysql:
+        image: mysql:8
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_ROOT_PASSWORD: $DATABASE_PASSWORD
+            MYSQL_USER: $DATABASE_USER
+            MYSQL_PASSWORD: $DATABASE_PASSWORD
+            MYSQL_DATABASE: $DATABASE_NAME
+        restart: unless-stopped
+    
+    sender:
+        build: .
+        links:
+            - mysql
+        depends_on:
+            - mysql
+        environment:
+            ENVIRONMENT: $ENVIRONMENT
+            DATABASE_NAME: $DATABASE_NAME
+            DATABASE_HOST: $DATABASE_HOST
+            DATABASE_PORT: $DATABASE_PORT
+            DATABASE_USER: $DATABASE_USER
+            DATABASE_PASSWORD: $DATABASE_PASSWORD
+            BACKUP_SLEEP: $BACKUP_SLEEP
+            BACKUP_DAYS: $BACKUP_DAYS
+            BACKUP_SECRET: $BACKUP_SECRET
+            S3_ACCESS_KEY: $S3_ACCESS_KEY
+            S3_SECRET_KEY: $S3_SECRET_KEY
+            S3_REGION: $S3_REGION
+            S3_BUCKET: $S3_BUCKET
+        volumes:
+            - ./backups:/backups
+            - ./restore:/restore
+        restart: unless-stopped
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        depends_on:
+            - mysql
+        ports:
+            - 9000:80
+        environment:
+            PMA_HOST: mysql
+            PHP_UPLOAD_MAX_FILESIZE: 1G
+            PHP_MAX_INPUT_VARS: 1G
+            UPLOAD_LIMIT: 10M
+        restart: unless-stopped
+    
