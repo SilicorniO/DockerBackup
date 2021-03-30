@@ -22,7 +22,6 @@ export default class AddData implements BaseController {
 
   public async execute(
     req: ControllerRequest,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     userLogged: LoggedUser,
   ): Promise<void> {
     // convert from multer files to data files
@@ -35,9 +34,9 @@ export default class AddData implements BaseController {
     })
 
     // store data
-    await this.dataService.addFiles(dataFiles)
+    await this.dataService.addFiles(dataFiles, userLogged.name)
 
     // clean files
-    await this.dataService.cleanFiles()
+    await this.dataService.cleanFiles(userLogged.name)
   }
 }

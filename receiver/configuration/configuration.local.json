@@ -3,7 +3,14 @@
 
 	"listenPort": 4000,
 	"permission": {
-		"secret": "silicornio",
+		"users": [{
+			"name": "user1",
+			"secret": "silicornio1"
+		},{
+			"name": "user2",
+			"secret": "silicornio2"
+		}],
+		"secret": "silicornio", 
 		"maxTime": 3600,
 		"maxSize": 100,
 		"numMin": 2

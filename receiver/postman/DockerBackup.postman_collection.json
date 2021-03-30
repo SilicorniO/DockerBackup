@@ -9,7 +9,7 @@
 			"name": "data",
 			"item": [
 				{
-					"name": "Add files",
+					"name": "Add files with secret",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -17,6 +17,44 @@
 								"key": "Authorization",
 								"value": "silicornio",
 								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file1_13",
+									"type": "file",
+									"src": "/Users/javiersanchezruiz/Downloads/696909.jpg"
+								},
+								{
+									"key": "file2_13",
+									"type": "file",
+									"src": "/Users/javiersanchezruiz/Downloads/409092358_g.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{endpoint}}/data",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"data"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add files with user",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "silicornio1"
 							}
 						],
 						"body": {

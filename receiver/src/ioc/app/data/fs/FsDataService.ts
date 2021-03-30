@@ -15,12 +15,12 @@ const MAX_SIZE_UNIT = 1024 * 1024 // megabytes
 export default class FsDataService implements DataService {
   private fileDataManager = new FileDataManager()
 
-  public async addFiles(files: DataFile[]): Promise<void> {
+  public async addFiles(files: DataFile[], userName?: string): Promise<void> {
     for (const file of files) {
       try {
         Log.d(`Adding ${file.name}`)
         // check if user folder exist, else we create it
-        const backupsFolder = Configuration.get().backupsFolder
+        const backupsFolder = this.getFolder(userName)
         if (!FileUtils.folderExists(backupsFolder)) {
           FileUtils.createFolder(backupsFolder)
         }
@@ -40,12 +40,12 @@ export default class FsDataService implements DataService {
     return
   }
 
-  public async cleanFiles(): Promise<void> {
+  public async cleanFiles(userName?: string): Promise<void> {
     // permission values
     const permission = Configuration.get().permission
 
     // get folder info
-    const backupFolder = Configuration.get().backupsFolder
+    const backupFolder = this.getFolder(userName)
     const folderInfo = await this.fileDataManager.getFolderInfo(backupFolder)
 
     // get all files and sort by date
@@ -95,5 +95,15 @@ export default class FsDataService implements DataService {
     }
 
     return
+  }
+
+  // ----- PRIVATE ----
+
+  private getFolder(userName?: string): string {
+    let userFolder = ""
+    if (userName) {
+      userFolder = `/${userName}`
+    }
+    return `${Configuration.get().backupsFolder}${userFolder}`
   }
 }

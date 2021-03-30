@@ -1,6 +1,6 @@
 {
   "name": "DockerBackupReceiver",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Docker Backup Receiver",
   "main": "server.js",
   "scripts": {

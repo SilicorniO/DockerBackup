@@ -21,6 +21,15 @@ export default class ImplAuthService implements AuthService {
   }
 
   public async getLoggedUser(headers: AuthHeaders): Promise<LoggedUser> {
+    // validate token as user
+    const userName = this.permissionService.validateUser(headers.authorization)
+    if (userName != null) {
+      return {
+        name: userName,
+        level: UserLevel.USER,
+      }
+    }
+
     // validate token
     if (!this.permissionService.validate(headers.authorization)) {
       return {

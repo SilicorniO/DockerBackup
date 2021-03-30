@@ -10,8 +10,14 @@ export interface IConfigurationDatabase {
   password: string
 }
 
+export interface IConfigurationUser {
+  name: string
+  secret: string
+}
+
 export interface IConfigurationPermission {
   secret: string
+  users: IConfigurationUser[]
   maxTime: number
   maxSize: number
   numMin: number
@@ -40,6 +46,23 @@ export class Configuration {
       Log.do("confEnvironment", confEnvironment)
 
       // apply env values
+      if (process.env.USERS) {
+        // generate users
+        const users: IConfigurationUser[] = []
+        const usersSplit = process.env.USERS.split(";")
+        for (const userSplit of usersSplit) {
+          const userComponents = userSplit.split(":")
+          if (userComponents.length > 1) {
+            users.push({
+              name: userComponents[0],
+              secret: userComponents[1],
+            })
+          }
+        }
+
+        // assign users
+        confEnvironment.permission.users = users
+      }
       if (process.env.SECRET) {
         confEnvironment.permission.secret = process.env.SECRET
       }
