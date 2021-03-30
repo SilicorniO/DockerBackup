@@ -2,10 +2,11 @@ version: "3.5"
 
 services:
     receiver:
-        image: silicornio/backup-receiver:0.1.1
+        image: silicornio/backup-receiver:0.1.2
         ports:
             - 4000:4000
         environment:
+            USERS: mongo:mongo_secret;mysql:mysql_secret
             SECRET: silicornio
             MAX_TIME: 15
             MAX_SIZE: 0.005
@@ -41,7 +42,7 @@ services:
             BACKUP_RECEIVER: http://receiver:4000
             BACKUP_SLEEP: 5 # seconds
             BACKUP_DAYS: 0
-            BACKUP_SECRET: silicornio
+            BACKUP_SECRET: mongo_secret
         volumes:
             - ./mongo_backups:/backups
             - ./mongo_restore:/restore
@@ -73,7 +74,7 @@ services:
             BACKUP_RECEIVER: http://receiver:4000
             BACKUP_SLEEP: 5 # seconds
             BACKUP_DAYS: 0
-            BACKUP_SECRET: silicornio
+            BACKUP_SECRET: mysql_secret
         volumes:
             - ./mysql_backups:/backups
             - ./mysql_restore:/restore
