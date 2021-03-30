@@ -1,0 +1,20 @@
+version: "3.5"
+
+services:
+    sender:
+        build: .
+        environment:
+            ENVIRONMENT: $ENVIRONMENT
+            FOLDER_NAME: $FOLDER_NAME
+            BACKUP_SLEEP: $BACKUP_SLEEP
+            BACKUP_DAYS: $BACKUP_DAYS
+            BACKUP_SECRET: $BACKUP_SECRET
+            S3_ACCESS_KEY: $S3_ACCESS_KEY
+            S3_SECRET_KEY: $S3_SECRET_KEY
+            S3_REGION: $S3_REGION
+            S3_BUCKET: $S3_BUCKET
+        volumes:
+            - ./backups:/backups
+            - ./folder:/folder
+        restart: unless-stopped
+    

@@ -4,6 +4,10 @@ mongo_sender/backups
 #mysql_sender
 mysql_sender/backups
 
+#folder_sender
+folder_sender/backups
+folder_sender/folder
+
 #test
 test/mongo_backups
 test/mysql_backups
