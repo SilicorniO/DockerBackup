@@ -46,4 +46,36 @@ services:
             - ./mongo_backups:/backups
             - ./mongo_restore:/restore
         restart: unless-stopped
+
+    mysql:
+        image: mysql:8
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_ROOT_PASSWORD: pass
+            MYSQL_USER: user
+            MYSQL_PASSWORD: mysql_pass
+            MYSQL_DATABASE: silicornio
+        restart: unless-stopped
+
+    mysql_sender:
+        image: silicornio/backup-sender-mysql:0.1.0
+        links:
+            - mysql
+        depends_on:
+            - mysql
+        environment:
+            ENVIRONMENT: test
+            DATABASE_NAME: silicornio
+            DATABASE_HOST: mysql
+            DATABASE_PORT: 3306
+            DATABASE_USER: user
+            DATABASE_PASSWORD: mysql_pass
+            BACKUP_RECEIVER: http://receiver:4000
+            BACKUP_SLEEP: 5 # seconds
+            BACKUP_DAYS: 0
+            BACKUP_SECRET: silicornio
+        volumes:
+            - ./mysql_backups:/backups
+            - ./mysql_restore:/restore
+        restart: unless-stopped
     
