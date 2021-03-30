@@ -1,20 +1,23 @@
 #!/bin/bash
 
 # sleep some seconds
-sleep 5
+sleep 15
 
 # replace variables in mysql configuration file
 envsubst < "/config/mysql_template.cnf" > "/etc/my.cnf"
 
+# move to restore folder
+cd /restore
+
 # restore backup
-if [ -d "./restore" ]; then
+if [ -f "./restore.sql" ]; then
     echo "Restoring backup in database ${DATABASE_NAME}"
-    /usr/bin/mysql --host ${DATABASE_HOST} --port ${DATABASE_PORT} --user ${DATABASE_USER} --password ${DATABASE_PASSWORD} --database ${DATABASE_NAME} < restore.sql
-    rm restore.sql
+    /usr/bin/mysql --host=${DATABASE_HOST} --port=${DATABASE_PORT} --user=${DATABASE_USER} --password=${DATABASE_PASSWORD} --database=${DATABASE_NAME} < ./restore.sql
+    rm ./restore.sql
 fi
 
 # move to backups folder
-cd /backups
+cd ../backups
 
 while [ true ]; do
 
