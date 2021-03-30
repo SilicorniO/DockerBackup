@@ -3,9 +3,6 @@
 # sleep some seconds
 sleep 5
 
-# move to backups folder
-cd /backups
-
 while [ true ]; do
 
     # generate the suffix for files
@@ -14,7 +11,9 @@ while [ true ]; do
     echo "Starting backup: ${now}"
 
     echo "Executing folder backup"
-    zip -r ${ENVIRONMENT}_${FOLDER_NAME}_${now}.zip /folder
+    cd /folder
+    zip -r -9 /backups/${ENVIRONMENT}_${FOLDER_NAME}_${now}.zip .
+    cd /backups
 
     if [ "$BACKUP_SECRET" != "" ]; then
         echo "Sending files to silicornio backup"

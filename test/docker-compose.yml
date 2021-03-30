@@ -90,7 +90,7 @@ services:
             BACKUP_DAYS: 0
             BACKUP_SECRET: silicornio
         volumes:
-            - ./mysql_backups:/backups
-            - ./mysql_restore:/restore
+            - ./folder_backups:/backups
+            - ./folder:/folder
         restart: unless-stopped
     

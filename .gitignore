@@ -11,4 +11,5 @@ folder_sender/folder
 #test
 test/mongo_backups
 test/mysql_backups
+test/folder_backups
 test/receiver_backups
